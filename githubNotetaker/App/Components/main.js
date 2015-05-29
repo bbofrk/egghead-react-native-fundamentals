@@ -4,13 +4,48 @@ var React = require('react-native');
 var {
   View,
   Text,
-  StyleSheet
+  StyleSheet,
+  TextInput,
+  TouchableHighlight,
+  ActivityIndicatorIOS
 } = React;
 var Main = React.createClass({
+  getInitialState: function() {
+    return {
+      username: '',
+      isLoading: false,
+      error: false,
+    }
+  },
+  handleChange: function(event) {
+    this.setState({
+      username: event.nativeEvent.text
+    });
+    console.log('updating username');
+  },
+  handleSubmit: function() {
+    //update our indicatorISO spinner
+    this.setState({
+      isLoading: true
+    });
+    console.log('SUBMIT', this.state.username);
+    //fetch data from gitbhub
+    //reroute to the enxt passing that github information
+  },
   render: function() {
     return (
       <View style={styles.mainContainer}>
-        <Text>Testing the Router</Text>
+        <Text sytle={styles.title}>Search for a Github User</Text>
+        <TextInput
+          style={styles.searchInput}
+          value={this.state.username}
+          onChange={this.handleChange} />
+        <TouchableHighlight
+          style={styles.button}
+          onPress={this.handleSubmit}
+          underlayColor='white'>
+          <Text style={styles.buttonText}>Search</Text>
+        </TouchableHighlight>
       </View>
     );
   }

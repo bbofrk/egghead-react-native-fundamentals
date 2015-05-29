@@ -1,6 +1,7 @@
 'use strict';
 
 var React = require('react-native');
+var api = require('../Utils/api');
 var {
   View,
   Text,
@@ -21,14 +22,33 @@ var Main = React.createClass({
     this.setState({
       username: event.nativeEvent.text
     });
-    console.log('updating username');
   },
   handleSubmit: function() {
     //update our indicatorISO spinner
     this.setState({
       isLoading: true
     });
-    console.log('SUBMIT', this.state.username);
+    api.getBio(this.state.username)
+      .then(res => {
+        if (res.message === 'Not Found') {
+          this.setState({
+            error: 'User not Found',
+            isLoading: false,
+          });
+        }
+        else {
+          this.props.navigator.push({
+            title: res.name || 'Select an Option',
+            component: Dashboard,
+            passProps: {userInfo: res}
+          });
+          this.setState({
+            isLoading: false,
+            error: false,
+            username: ''
+          });
+        }
+      });
     //fetch data from gitbhub
     //reroute to the enxt passing that github information
   },

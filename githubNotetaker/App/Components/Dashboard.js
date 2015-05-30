@@ -1,5 +1,6 @@
 'use strict';
 var React = require('react-native');
+var Profile = require('./Profile');
 
 var {
   Text,
@@ -28,7 +29,11 @@ var Dashboard = React.createClass({
     return obj;
   },
   goToProfile: function() {
-    console.log('go to profile');
+    this.props.navigator.push({
+      title: 'Profile' || 'Select an Option',
+      component: Profile,
+      passProps: {userInfo: this.props.userInfo}
+    });
   },
   goToRepos: function() {
     console.log('go to Repos');

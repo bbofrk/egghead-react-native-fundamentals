@@ -1,6 +1,8 @@
 'use strict';
 var React = require('react-native');
 var Profile = require('./Profile');
+var Repos = require('./Repos');
+var api = require('../Utils/api')
 
 var {
   Text,
@@ -36,7 +38,14 @@ var Dashboard = React.createClass({
     });
   },
   goToRepos: function() {
-    console.log('go to Repos');
+    api.getRepos(this.props.userInfo.login)
+        .then(res => {
+          this.props.navigator.push({
+            title: 'Repos' || 'Select an Option',
+            component: Repos,
+            passProps: {userInfo: this.props.userInfo, repos: res}
+          });
+        });
   },
   goToNote: function() {
     console.log('go to Note');

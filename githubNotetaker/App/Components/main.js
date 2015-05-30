@@ -54,19 +54,31 @@ var Main = React.createClass({
     //reroute to the enxt passing that github information
   },
   render: function() {
+    var showErr = (
+      this.state.error ? <Text>{this.state.error}</Text> : <View></View>
+    );
     return (
       <View style={styles.mainContainer}>
         <Text sytle={styles.title}>Search for a Github User</Text>
         <TextInput
           style={styles.searchInput}
           value={this.state.username}
-          onChange={this.handleChange} />
+          onChange={this.handleChange}
+          returnKeyType="search"
+          enableReturnKeyAutomatically="true"
+          onEndEditing={this.handleSubmit} />
         <TouchableHighlight
           style={styles.button}
           onPress={this.handleSubmit}
           underlayColor='white'>
           <Text style={styles.buttonText}>Search</Text>
         </TouchableHighlight>
+        <ActivityIndicatorIOS
+          animating={this.state.isLoading}
+          color="#111"
+          size="large">
+        </ActivityIndicatorIOS>
+        {showErr}
       </View>
     );
   }

@@ -2,7 +2,9 @@
 var React = require('react-native');
 var Profile = require('./Profile');
 var Repos = require('./Repos');
-var api = require('../Utils/api')
+var api = require('../Utils/api');
+var Notes = require('./Notes');
+
 
 var {
   Text,
@@ -48,7 +50,18 @@ var Dashboard = React.createClass({
         });
   },
   goToNote: function() {
-    console.log('go to Note');
+    api.getNotes(this.props.userInfo.login)
+        .then(res => {
+          res = res || {};
+          this.props.navigator.push({
+            title: 'Notes',
+            component: Notes,
+            passProps: {
+              notes: res,
+              userInfo: this.props.userInfo
+            }
+          })
+        });
   },
   render: function() {
     return (
